@@ -217,6 +217,49 @@ footer {
   text-align: center;
 }
 
+  
+/* Professional feature cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e1eaf6;
+  border-radius: 18px;
+  padding: 26px;
+  box-shadow: 0 8px 24px rgba(36, 68, 109, 0.07);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.card h3 {
+  color: #142b45;
+  margin: 0 0 12px;
+  font-size: 19px;
+}
+
+.card p {
+  color: #526780;
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(36, 68, 109, 0.13);
+  border-color: #bfd7ff;
+}
+
+@media (max-width: 600px) {
+  .card {
+    padding: 20px;
+  }
+}
+
+
 </style>
   .hero-art {
   display: flex;
