@@ -1,461 +1,672 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Commerce Order Management System</title>
-<style>
-:root {
-  --blue: #2878f0;
-  --navy: #142b45;
-  --light: #f4f8ff;
-  --text: #24344d;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: var(--light);
-  color: var(--text);
-  line-height: 1.6;
-}
-nav {
-  background: var(--navy);
-  color: white;
-  padding: 16px 7%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-.brand { font-size: 19px; font-weight: bold; }
-nav a {
-  color: white;
-  text-decoration: none;
-  margin-left: 17px;
-  font-size: 14px;
-}
-nav a:hover { color: #8ec5ff; }
-.hero {
-  padding: 75px 7%;
-  background: linear-gradient(120deg, #e2efff, #ffffff);
-  display: grid;
-  grid-template-columns: 1.4fr 0.8fr;
-  align-items: center;
-  gap: 35px;
-}
-.tag {
-  display: inline-block;
-  background: #dbeafe;
-  color: #1d5bc3;
-  padding: 5px 13px;
-  border-radius: 30px;
-  font-size: 13px;
-  font-weight: bold;
-}
-h1 { font-size: clamp(32px, 4.5vw, 52px); line-height: 1.15; margin: 18px 0; }
-h1 span { color: var(--blue); }
-.hero p { font-size: 17px; color: #52647c; max-width: 650px; }
-.hero-art {
-  background: white;
-  border: 1px solid #dbe7f7;
-  border-radius: 28px;
-  padding: 35px 20px;
-  text-align: center;
-  box-shadow: 0 15px 40px #204d8310;
-}
-.cart { font-size: 95px; line-height: 1.3; }
-.hero-art h3 { margin-bottom: 4px; }
-.hero-art p { font-size: 14px; margin-top: 0; }
-.buttons { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 25px; }
-.btn {
-  display: inline-block;
-  padding: 12px 19px;
-  background: var(--blue);
-  color: white;
-  text-decoration: none;
-  border-radius: 9px;
-  font-weight: bold;
-  border: 1px solid var(--blue);
-}
-.btn.secondary { background: white; color: var(--blue); }
-section { padding: 55px 7%; scroll-margin-top: 20px; }
-.section-title { text-align: center; margin-bottom: 30px; }
-.section-title h2 { font-size: 30px; margin-bottom: 5px; }
-.section-title p { color: #697991; margin-top: 0; }
-.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-.card {
-  background: white;
-  border: 1px solid #e1eaf5;
-  border-radius: 15px;
-  padding: 23px;
-  box-shadow: 0 6px 18px #173b6710;
-}
-.card .emoji { font-size: 30px; }
-.card h3 { margin: 9px 0; font-size: 18px; }
-.card p { color: #66758b; font-size: 14px; margin-bottom: 0; }
-.soft { background: #eaf2ff; }
-.schema { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-.table-card {
-  border: 1px solid #c9dcf8;
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-}
-.table-card h3 { background: #dceaff; padding: 12px 15px; margin: 0; color: #194d95; }
-.table-card ul { list-style: none; padding: 10px 15px; margin: 0; }
-.table-card li { border-bottom: 1px solid #edf1f7; padding: 5px 0; font-size: 14px; }
-.table-card li:last-child { border: 0; }
-.pill {
-  display: inline-block; background: #eef4ff; color: #2459a5;
-  padding: 3px 8px; border-radius: 5px; font-size: 11px; margin-left: 4px;
-}
-.code-card {
-  background: #142437 !important;
-  color: #e6efff !important;
-  border: 1px solid #263f5a;
-  border-radius: 14px;
-  padding: 22px;
-  overflow-x: auto;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Commerce Order Management System</title>
 
-.code-card pre,
-.code-card pre#sql,
-#sql {
-  color: #e6efff !important;
-  background: transparent !important;
-  opacity: 1 !important;
-  font-family: Consolas, monospace;
-}
-pre { white-space: pre; font-size: 13px; line-height: 1.7; }
-.copy {
-  background: #2878f0; color: white; border: 0; border-radius: 7px;
-  padding: 9px 13px; cursor: pointer;
-}
-.highlight-list { padding-left: 0; list-style: none; }
-.highlight-list li { margin: 12px 0; }
-.highlight-list li::before { content: "✓"; color: #0aa36e; font-weight: bold; margin-right: 10px; }
-.cta { text-align: center; background: linear-gradient(120deg, #173452, #2878f0); color: white; }
-.cta p { color: #e0ebff; }
-.cta .btn { background: white; color: #1c5fbd; border-color: white; }
-footer {
-  background: #10253b; color: #dbe7f8;
-  padding: 25px 7%; display: flex; justify-content: space-between;
-  gap: 15px; flex-wrap: wrap; font-size: 13px;
-}
-footer a { color: #a9d0ff; }
-@media(max-width: 800px) {
-  .hero { grid-template-columns: 1fr; padding-top: 45px; }
-  .grid { grid-template-columns: repeat(2, 1fr); }
-  .schema { grid-template-columns: repeat(2, 1fr); }
-  nav a { margin: 0 10px 0 0; }
-}
-@media(max-width: 520px) {
-  .grid, .schema { grid-template-columns: 1fr; }
-  section { padding: 40px 5%; }
-  .hero { padding: 40px 5%; }
-}
+  <style>
+    :root {
+      --blue: #2878f0;
+      --navy: #142b45;
+      --light: #f4f8ff;
+      --text: #24344d;
+      --muted: #526780;
+      --border: #e1eaf6;
+    }
 
-  
-/* Professional design improvements */
-body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  line-height: 1.7;
-  color: #24344d;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-header.hero {
-  padding: 64px 6%;
-  gap: 36px;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.hero-art {
-  background: linear-gradient(135deg, #f0f6ff, #ffffff);
-  border: 1px solid #dbeafe;
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0 16px 40px rgba(40, 87, 150, 0.12);
-  overflow: hidden;
-}
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--light);
+      color: var(--text);
+      line-height: 1.7;
+    }
 
-.hero-art img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 14px;
-}
+    /* Navigation */
+    nav {
+      background: var(--navy);
+      color: white;
+      padding: 16px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
 
-section {
-  padding-top: 64px;
-  padding-bottom: 64px;
-}
+    .brand {
+      font-size: 19px;
+      font-weight: 700;
+    }
 
-.section-title {
-  margin-bottom: 28px;
-}
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 17px;
+      font-size: 14px;
+    }
 
-.grid {
-  gap: 22px;
-}
+    nav a:hover {
+      color: #8ec5ff;
+    }
 
-.card,
-.code-card {
-  background: #ffffff;
-  border: 1px solid #e1eaf6;
-  border-radius: 18px;
-  padding: 24px;
-  box-shadow: 0 8px 24px rgba(36, 68, 109, 0.07);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    /* Hero section */
+    .hero {
+      padding: 64px 6%;
+      background: linear-gradient(120deg, #e2efff, #ffffff);
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+      align-items: center;
+      gap: 36px;
+    }
 
-.card:hover,
-.code-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 14px 30px rgba(36, 68, 109, 0.12);
-}
+    .tag {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1d5bc3;
+      padding: 5px 13px;
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 700;
+    }
 
-.btn {
-  border-radius: 10px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
+    h1 {
+      font-size: clamp(32px, 4.5vw, 52px);
+      line-height: 1.15;
+      margin: 18px 0;
+    }
 
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(40, 87, 150, 0.16);
-}
+    h1 span {
+      color: var(--blue);
+    }
 
-footer {
-  padding: 28px 6%;
-  text-align: center;
-}
+    .hero-copy p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 650px;
+    }
 
-  
-/* Professional feature cards */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 22px;
-}
+    .buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+    }
 
-.card {
-  background: #ffffff;
-  border: 1px solid #e1eaf6;
-  border-radius: 18px;
-  padding: 26px;
-  box-shadow: 0 8px 24px rgba(36, 68, 109, 0.07);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
+    .btn {
+      display: inline-block;
+      padding: 12px 19px;
+      background: var(--blue);
+      color: white;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 700;
+      border: 1px solid var(--blue);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
 
-.card h3 {
-  color: #142b45;
-  margin: 0 0 12px;
-  font-size: 19px;
-}
+    .btn.secondary {
+      background: white;
+      color: var(--blue);
+    }
 
-.card p {
-  color: #526780;
-  font-size: 15px;
-  line-height: 1.7;
-  margin: 0;
-}
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(40, 87, 150, 0.16);
+    }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 16px 32px rgba(36, 68, 109, 0.13);
-  border-color: #bfd7ff;
-}
+    /* Hero image card */
+    .hero-art {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      min-width: 0;
+      background: linear-gradient(135deg, #f0f6ff, #ffffff);
+      border: 1px solid #dbeafe;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 16px 40px rgba(40, 87, 150, 0.12);
+      overflow: hidden;
+    }
 
-@media (max-width: 600px) {
-  .card {
-    padding: 20px;
-  }
-}
+    .hero-art img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+    }
 
+    .hero-caption {
+      width: 100%;
+      text-align: center;
+      padding: 0 8px 8px;
+    }
 
-/* Fix SQL Demo text visibility */
-.code-card pre,
-pre#sql,
-#sql {
-  color: #24344d !important;
-  background: #f8fbff !important;
-  opacity: 1;
-  text-shadow: none;
-}
+    .hero-caption h3 {
+      color: var(--navy);
+      margin: 0 0 6px;
+      font-size: 22px;
+    }
 
-.code-card {
-  color: #24344d;
-}
+    .hero-caption p {
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+    }
 
-</style>
-  .hero-art {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-}
+    /* Section headings */
+    section {
+      padding: 64px 7%;
+      scroll-margin-top: 20px;
+    }
 
-.hero-art img {
-  width: 100%;
-  max-width: 100%;
-  height: auto;
-  border-radius: 14px;
-}
+    .section-title {
+      text-align: center;
+      margin-bottom: 28px;
+    }
 
-.hero-caption {
-  width: 100%;
-  text-align: center;
-  padding: 8px 12px;
-}
+    .section-title h2 {
+      font-size: 30px;
+      margin: 0 0 5px;
+    }
 
-.hero-caption h3 {
-  color: #142b45;
-  margin: 0 0 6px;
-  font-size: 22px;
-}
+    .section-title p {
+      color: #697991;
+      margin-top: 0;
+    }
 
-.hero-caption p {
-  color: #526780;
-  margin: 0;
-  font-size: 15px;
-}
+    /* Feature cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(36, 68, 109, 0.07);
+      transition: transform 0.25s ease, box-shadow 0.25s ease,
+                  border-color 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 32px rgba(36, 68, 109, 0.13);
+      border-color: #bfd7ff;
+    }
+
+    .card .emoji {
+      font-size: 30px;
+    }
+
+    .card h3 {
+      color: var(--navy);
+      margin: 9px 0 12px;
+      font-size: 19px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* Database structure */
+    .soft {
+      background: #eaf2ff;
+    }
+
+    .schema {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .table-card {
+      border: 1px solid #c9dcf8;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-card h3 {
+      background: #dceaff;
+      padding: 12px 15px;
+      margin: 0;
+      color: #194d95;
+    }
+
+    .table-card ul {
+      list-style: none;
+      padding: 10px 15px;
+      margin: 0;
+    }
+
+    .table-card li {
+      border-bottom: 1px solid #edf1f7;
+      padding: 5px 0;
+      font-size: 14px;
+    }
+
+    .table-card li:last-child {
+      border: 0;
+    }
+
+    .pill {
+      display: inline-block;
+      background: #eef4ff;
+      color: #2459a5;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      margin-left: 4px;
+    }
+
+    /* SQL demonstration */
+    .code-card {
+      background: #142437;
+      color: #e6efff;
+      border: 1px solid #263f5a;
+      border-radius: 14px;
+      padding: 22px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(36, 68, 109, 0.07);
+    }
+
+    .code-card pre {
+      color: #e6efff;
+      background: transparent;
+      white-space: pre;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0 0 16px;
+    }
+
+    .copy {
+      background: var(--blue);
+      color: white;
+      border: 0;
+      border-radius: 7px;
+      padding: 9px 13px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 14px;
+    }
+
+    .copy:hover {
+      background: #1765d7;
+    }
+
+    /* Call-to-action and footer */
+    .cta {
+      text-align: center;
+      background: linear-gradient(120deg, #173452, #2878f0);
+      color: white;
+    }
+
+    .cta p {
+      color: #e0ebff;
+    }
+
+    .cta .btn {
+      background: white;
+      color: #1c5fbd;
+      border-color: white;
+    }
+
+    footer {
+      background: #10253b;
+      color: #dbe7f8;
+      padding: 28px 6%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+
+    footer a {
+      color: #a9d0ff;
+    }
+
+    /* Responsive design */
+    @media (max-width: 800px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 45px;
+      }
+
+      nav a {
+        margin: 0 10px 0 0;
+      }
+    }
+
+    @media (max-width: 520px) {
+      section {
+        padding: 40px 5%;
+      }
+
+      .hero {
+        padding: 40px 5%;
+      }
+
+      nav {
+        padding: 14px 5%;
+      }
+
+      nav > div:last-child {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      nav a {
+        margin: 0;
+      }
+
+      .hero-art {
+        padding: 14px;
+      }
+    }
+  </style>
 </head>
-<body>
 
-<nav>
-  <div class="brand">🛒 E-Commerce DBMS</div>
-  <div>
-    <a href="#features">Features</a>
-    <a href="#database">Database</a>
-    <a href="#queries">SQL Demo</a>
-    <a href="#about">About</a>
-  </div>
-</nav>
+  <body>
 
-<header class="hero">
-  <div>
-    <span class="tag">MYSQL • DBMS PROJECT</span>
-    <h1>E-Commerce <span>Order Management System</span></h1>
-    <p>A database project designed to manage customers, products, inventory, orders, and order status history using MySQL.</p>
-    <p>Explore how SQL queries, triggers, stored procedures, and views help organize e-commerce data.</p>
-    <div class="buttons">
-      <a class="btn" href="#features">Explore Project ↓</a>
-      <a class="btn secondary" href="https://github.com/antara1601/E-Commerce-Order-Management-System" target="_blank" rel="noopener">View GitHub ↗</a>
+  <!-- Navigation -->
+  <nav>
+    <div class="brand">🛒 E-Commerce DBMS</div>
+    <div>
+      <a href="#features">Features</a>
+      <a href="#database">Database</a>
+      <a href="#queries">SQL Demo</a>
+      <a href="#about">About</a>
     </div>
-  </div>
+  </nav>
 
-<div class="hero-art">
-  <img
-    src="ecommerce-hero.png"
-    alt="E-Commerce Order Management System"
-    style="width:100%; max-width:600px; height:auto; display:block; margin:auto;"
-  >
- 
-<div class="hero-caption">
-  <h3>Build. Manage. Track.</h3>
-  <p>Customers, products, orders, and inventory — managed in one database.</p>
-</div>
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-copy">
+      <span class="tag">MYSQL • DBMS PROJECT</span>
 
-</div>
+      <h1>E-Commerce <span>Order Management System</span></h1>
 
-    <h3>Build. Manage. Track.</h3>
-    <p>One database for essential order-management operations.</p>
-    <span class="tag">Powered by MySQL</span>
-  </div>
-</header>
+      <p>
+        A database project designed to manage customers, products,
+        inventory, orders, and order status history using MySQL.
+      </p>
 
-<section id="features">
-  <div class="section-title">
-    <h2>Project Features</h2>
-    <p>Key functions implemented in the database project</p>
-  </div>
-  <div class="grid">
-    <div class="card"><div class="emoji">👥</div><h3>Customer Management</h3><p>Organize customer information and connect customers with their orders.</p></div>
-    <div class="card"><div class="emoji">📦</div><h3>Product & Inventory</h3><p>Maintain product details and track available stock quantities.</p></div>
-    <div class="card"><div class="emoji">🛒</div><h3>Order Management</h3><p>Store orders, order items, quantities, prices, and order totals.</p></div>
-    <div class="card"><div class="emoji">🔄</div><h3>Status Tracking</h3><p>Maintain a history of order status changes.</p></div>
-    <div class="card"><div class="emoji">⚙️</div><h3>SQL Automation</h3><p>Use triggers and stored procedures for supported database operations.</p></div>
-    <div class="card"><div class="emoji">📊</div><h3>Reports & Views</h3><p>Use SQL queries and views to inspect order and inventory information.</p></div>
-  </div>
-</section>
+      <p>
+        Explore how SQL queries, triggers, stored procedures, and views
+        help organize e-commerce data.
+      </p>
 
-<section class="soft" id="database">
-  <div class="section-title">
-    <h2>Database Structure</h2>
-    <p>Six main tables in the project</p>
-  </div>
-  <div class="schema">
-    <div class="table-card"><h3>👥 Customers</h3><ul><li>Customer_ID <span class="pill">PK</span></li><li>Customer details</li></ul></div>
-    <div class="table-card"><h3>📦 Products</h3><ul><li>Product_ID <span class="pill">PK</span></li><li>Product details</li><li>Price information</li></ul></div>
-    <div class="table-card"><h3>🏷️ Inventory</h3><ul><li>Inventory_ID <span class="pill">PK</span></li><li>Product_ID <span class="pill">FK</span></li><li>Stock quantity</li></ul></div>
-    <div class="table-card"><h3>🛒 Orders</h3><ul><li>Order_ID <span class="pill">PK</span></li><li>Customer_ID <span class="pill">FK</span></li><li>Order date and status</li></ul></div>
-    <div class="table-card"><h3>🧾 Order_Items</h3><ul><li>Order item details</li><li>Order_ID <span class="pill">FK</span></li><li>Product_ID <span class="pill">FK</span></li><li>Quantity and price</li></ul></div>
-    <div class="table-card"><h3>🔄 Order_Status_History</h3><ul><li>Status history details</li><li>Order_ID <span class="pill">FK</span></li><li>Status and update time</li></ul></div>
-  </div>
-  <p style="text-align:center;font-size:13px;color:#65758c;margin-top:22px;">PK = Primary Key • FK = Foreign Key. Refer to the SQL script for the exact column definitions and relationships.</p>
-</section>
+      <div class="buttons">
+        <a class="btn" href="#features">Explore Project ↓</a>
+        <a class="btn secondary"
+           href="https://github.com/antara1601/E-Commerce-Order-Management-System"
+           target="_blank" rel="noopener noreferrer">
+          View GitHub ↗
+        </a>
+      </div>
+    </div>
 
-<section id="queries">
-  <div class="section-title">
-    <h2>SQL Demo</h2>
-    <p>Example query to explore orders and customer details</p>
-  </div>
-  <div class="code-card">
-    <pre id="sql">SELECT
+    <!-- Hero Image -->
+    <div class="hero-art">
+      <img src="ecommerce-hero.png"
+           alt="E-Commerce Order Management System illustration">
+
+      <div class="hero-caption">
+        <h3>Build. Manage. Track.</h3>
+        <p>
+          Customers, products, orders, and inventory —
+          managed in one database.
+        </p>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section id="features">
+    <div class="section-title">
+      <h2>Project Features</h2>
+      <p>Key functions implemented in the database project</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="emoji">👥</div>
+        <h3>Customer Management</h3>
+        <p>Organize customer information and connect customers with their orders.</p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">📦</div>
+        <h3>Product &amp; Inventory</h3>
+        <p>Maintain product details and track available stock quantities.</p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">🛒</div>
+        <h3>Order Management</h3>
+        <p>Store orders, order items, quantities, prices, and order totals.</p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">🔄</div>
+        <h3>Status Tracking</h3>
+        <p>Maintain a history of order status changes.</p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">⚙️</div>
+        <h3>SQL Automation</h3>
+        <p>Use triggers and stored procedures for supported database operations.</p>
+      </div>
+
+      <div class="card">
+        <div class="emoji">📊</div>
+        <h3>Reports &amp; Views</h3>
+        <p>Use SQL queries and views to inspect order and inventory information.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Database Structure -->
+  <section class="soft" id="database">
+    <div class="section-title">
+      <h2>Database Structure</h2>
+      <p>Six main tables in the project</p>
+    </div>
+
+    <div class="schema">
+      <div class="table-card">
+        <h3>👥 Customers</h3>
+        <ul>
+          <li>Customer_ID <span class="pill">PK</span></li>
+          <li>Customer details</li>
+        </ul>
+      </div>
+
+      <div class="table-card">
+        <h3>📦 Products</h3>
+        <ul>
+          <li>Product_ID <span class="pill">PK</span></li>
+          <li>Product details</li>
+          <li>Price information</li>
+        </ul>
+      </div>
+
+      <div class="table-card">
+        <h3>🏷️ Inventory</h3>
+        <ul>
+          <li>Inventory_ID <span class="pill">PK</span></li>
+          <li>Product_ID <span class="pill">FK</span></li>
+          <li>Stock quantity</li>
+        </ul>
+      </div>
+
+      <div class="table-card">
+        <h3>🛒 Orders</h3>
+        <ul>
+          <li>Order_ID <span class="pill">PK</span></li>
+          <li>Customer_ID <span class="pill">FK</span></li>
+          <li>Order date and status</li>
+        </ul>
+      </div>
+
+      <div class="table-card">
+        <h3>🧾 Order_Items</h3>
+        <ul>
+          <li>Order item details</li>
+          <li>Order_ID <span class="pill">FK</span></li>
+          <li>Product_ID <span class="pill">FK</span></li>
+          <li>Quantity and price</li>
+        </ul>
+      </div>
+
+      <div class="table-card">
+        <h3>🔄 Order_Status_History</h3>
+        <ul>
+          <li>Status history details</li>
+          <li>Order_ID <span class="pill">FK</span></li>
+          <li>Status and update time</li>
+        </ul>
+      </div>
+    </div>
+
+    <p style="text-align:center; font-size:13px; color:#65758c; margin-top:22px;">
+      PK = Primary Key • FK = Foreign Key.
+      Refer to the SQL script for exact column definitions and relationships.
+    </p>
+  </section>
+
+  <!-- SQL Demo -->
+  <section id="queries">
+    <div class="section-title">
+      <h2>SQL Demo</h2>
+      <p>Example query to explore orders and customer details</p>
+    </div>
+
+    <div class="code-card">
+      <pre id="sql">SELECT
     o.Order_ID,
     o.Customer_ID,
     o.Order_Date,
     o.Status
 FROM Orders AS o
 ORDER BY o.Order_Date DESC;</pre>
-    <button class="copy" onclick="copySQL()">Copy SQL Code</button>
-    <span id="copyMessage" style="margin-left:10px;font-size:13px;"></span>
-  </div>
-  <p style="font-size:13px;color:#66758b;">This is an illustrative query. Check the actual column names in your SQL script before running it.</p>
-</section>
 
-<section id="about">
-  <div class="section-title">
-    <h2>Project Highlights</h2>
-    <p>Skills demonstrated through this learning project</p>
-  </div>
-  <div class="grid">
-    <div class="card"><h3>🗄️ Database Design</h3><p>Organizing data into related tables with keys and relationships.</p></div>
-    <div class="card"><h3>⚡ Triggers & Procedures</h3><p>Using database-side logic to automate selected operations.</p></div>
-    <div class="card"><h3>📈 SQL Reporting</h3><p>Retrieving useful information using queries and database views.</p></div>
-  </div>
-</section>
+      <button class="copy" type="button" onclick="copySQL()">
+        Copy SQL Code
+      </button>
 
-<section class="cta">
-  <h2>Want to Explore the SQL Code?</h2>
-  <p>Visit the GitHub repository to view the project files.</p>
-  <a class="btn" href="https://github.com/antara1601/E-Commerce-Order-Management-System" target="_blank" rel="noopener">Explore on GitHub ↗</a>
-</section>
+      <span id="copyMessage"
+            role="status"
+            aria-live="polite"
+            style="margin-left:10px; font-size:13px;">
+      </span>
+    </div>
 
-<footer>
-  <div><strong>E-Commerce Order Management System</strong><br>Built with HTML, CSS, and JavaScript</div>
-  <div>MySQL Project • Created by Antara Pawar</div>
-  <div><a href="https://github.com/antara1601/E-Commerce-Order-Management-System" target="_blank" rel="noopener">GitHub Repository ↗</a></div>
-</footer>
+    <p style="font-size:13px; color:#66758b;">
+      This is an illustrative query. Check the actual column names in
+      your SQL script before running it.
+    </p>
+  </section>
 
-<script>
-function copySQL() {
-  const code = document.getElementById("sql").innerText;
-  const message = document.getElementById("copyMessage");
-  if (navigator.clipboard && window.isSecureContext) {
-    navigator.clipboard.writeText(code).then(() => {
-      message.textContent = "Copied!";
-    }).catch(() => {
-      message.textContent = "Please select and copy the code manually.";
-    });
-  } else {
-    message.textContent = "Please select and copy the code manually.";
-  }
-}
-</script>
+  <!-- About Section -->
+  <section id="about">
+    <div class="section-title">
+      <h2>Project Highlights</h2>
+      <p>Skills demonstrated through this learning project</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h3>🗄️ Database Design</h3>
+        <p>Organizing data into related tables with keys and relationships.</p>
+      </div>
+
+      <div class="card">
+        <h3>⚡ Triggers &amp; Procedures</h3>
+        <p>Using database-side logic to automate selected operations.</p>
+      </div>
+
+      <div class="card">
+        <h3>📈 SQL Reporting</h3>
+        <p>Retrieving useful information using queries and database views.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GitHub Call to Action -->
+  <section class="cta">
+    <h2>Want to Explore the SQL Code?</h2>
+    <p>Visit the GitHub repository to view the project files.</p>
+
+    <a class="btn"
+       href="https://github.com/antara1601/E-Commerce-Order-Management-System"
+       target="_blank" rel="noopener noreferrer">
+      Explore on GitHub ↗
+    </a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div>
+      <strong>E-Commerce Order Management System</strong><br>
+      Built with HTML, CSS, and JavaScript
+    </div>
+
+    <div>MySQL Project • Created by Antara Pawar</div>
+
+    <div>
+      <a href="https://github.com/antara1601/E-Commerce-Order-Management-System"
+         target="_blank" rel="noopener noreferrer">
+        GitHub Repository ↗
+      </a>
+    </div>
+  </footer>
+
+  <!-- Copy SQL JavaScript -->
+  <script>
+    function copySQL() {
+      const code = document.getElementById("sql").innerText;
+      const message = document.getElementById("copyMessage");
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(code)
+          .then(() => {
+            message.textContent = "Copied!";
+          })
+          .catch(() => {
+            message.textContent =
+              "Please select and copy the code manually.";
+          });
+      } else {
+        message.textContent =
+          "Please select and copy the code manually.";
+      }
+    }
+  </script>
+
 </body>
 </html>
